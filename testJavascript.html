@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<script>
+		function ready(){
+		showWindow();
+		}
+		function showWindow(){
+		var clientwidth= document.body.clientWidth;
+		var clientheight=document.body.clientHeight;
+		var sw = document.body.scrollWidth; 
+		console.log(sw);
+		var sh = document.body.scrollHeight;
+		console.log(sh);
+		var st = document.body.scrollTop;
+		console.log(st); 
+		var sl = document.body.scrollLeft; 
+		console.log(sl); 
+		var mask= document.createElement('div');
+		mask.style.cssText = "position:absolute;left:0;top:0;background:gray;opacity:0.5;z-index:2;width:100%;height:100%";
+		document.body.appendChild(mask);
+
+		var win= document.createElement('div');
+		win.style.cssText = "position:absolute;left:" + (sw/2 - 400) + "px;    top:" + (sh/2 - 125) + "px;background:#eee;z-index:4;width:800px;height:250px;border-radius:5px;";
+		console.log(clientheight);
+		console.log(clientheight);
+		console.log(st);
+
+		var topBar = document.createElement('div');
+		topBar.style.cssText = "width:100%; height:30px;background:#338FCC;cursor:move;border-radius:5px 5px 0 0;padding:2px";
+		win.appendChild(topBar);
+
+		var title = document.createElement('div');
+		title.style.cssText = "float:left;color:white;font-family:Georgia, Serif;padding:2px;";
+		title.innerHTML = "对话框标题";
+
+		topBar.appendChild(title);
+
+		var closeBtn = document.createElement("div");
+		closeBtn.style.cssText = "float:right;width:20px;cursor:pointer;color:white;";
+		closeBtn.innerHTML = "x";
+		topBar.appendChild(closeBtn);
+
+		var content = document.createElement("div");
+		content.style.cssText="margin-top:12px;margin-left:12px;text-align:left;width:90%;height:80% ;overflow:auto;";
+		content.innerHTML = "呵呵噜";
+		win.appendChild(content);
+
+		var closearea = document.createElement("div");
+		closearea.style.cssText="width:100%;height:60px;background:#E6E6E6;float:bottom;border-radius:0 0 5px 5px;text-align:center;";
+		win.appendChild(closearea);
+		document.body.appendChild(win);
+        
+        var btn1 = document.createElement("div");
+        
+        btn1.style.cssText="text-align:center;width:90px;height:40px;color:white;background:#338FCC;border-radius:5px;display:inline-block;margin-right:10px;margin-top:10px;padding-top:5px;";
+        btn1.innerHTML = "确定";
+        closearea.appendChild(btn1);
+        btn1.onclick=function(){
+        	btn1.style.color="white";
+        	btn1.style.background="#338FCC";
+        	btn2.style.color="#AAAAAA";
+        	btn2.style.background="#eee";
+
+        }
+
+        var btn2 = document.createElement("div");
+        
+        btn2.style.cssText="text-align:center;width:90px;height:40px;color:#AAAAAA;background:#eee;border-radius:5px; border:1px solid #AAAAAA;decoration:none;display:inline-block;margin-top:10px;padding-top:5px;";
+        btn2.innerHTML = "取消";
+        closearea.appendChild(btn2);
+        btn2.onclick=function(){
+        	btn2.style.color="white";
+        	btn2.style.background="#338FCC";
+        	btn1.style.color="AAAAAA";
+        	btn1.style.background="#eee";
+
+        }
+
+		var mouseX=0;
+		var mouseY=0;
+
+		var moveable = false;
+		function getEvent(){
+		 return window.event||arguments.callee.caller.arguments[0];
+		}
+		topBar.onmousedown=function(){
+			var e = getEvent();
+			console.log(e);
+			moveable=true;
+			mouseX = e.clientX-parseInt(win.style.left); 
+			mouseY = e.clientY-parseInt(win.style.top); 
+			console.log(win.style.left);
+			console.log(mouseX);
+			console.log(mouseY);
+			
+		    	topBar.onmousemove = function(){
+		    	if(moveable){
+		    	 var event = getEvent();
+		    	 console.log(event);
+		    	 var x =  event.clientX - mouseX; 
+				 var y =  event.clientY - mouseY; 
+				 win.style.left = x + "px"; 
+				 win.style.top = y + "px"; 
+				 console.log(win.style.left);
+		    	}
+			}
+			document.onmouseup = function() 
+			{ 
+				moveable = false; 
+			} 
+}
+		closeBtn.onclick = function(){
+		   document.body.removeChild(win);
+		   document.body.removeChild(mask);
+		}
+
+		}
+	</script>
+</head>
+<body onload="ready()">
+I'm Perry Qi!
+
+</body>
+</html>
